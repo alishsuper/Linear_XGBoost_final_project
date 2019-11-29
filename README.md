@@ -1,1 +1,1 @@
-# Linear XGBoost Classifier
+# XGBoost Classifier
