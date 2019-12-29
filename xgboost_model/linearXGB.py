@@ -13,18 +13,16 @@ class linearXBG():
                                    verbose=verbose)
 
         self.model = []
-
         self.objective = obj._get_objective(params["objective"])
-
         self.eval_metric = obj._get_loss(params["eval_metric"])
 
         if params["objective"] in ["binary:logistic"]:
-            self.sigmoid=True
-        else: self.sigmoid=False
+            self.sigmoid = True
+        else: self.sigmoid = False
 
         if params["eval_metric"] in ["accuracy"]:
-            self.binarise=True
-        else: self.binarise=False
+            self.binarise = True
+        else: self.binarise = False
 
         self.n_estimators = n_estimators
         self.verbose = verbose
@@ -36,7 +34,6 @@ class linearXBG():
             self.early_stopping_rounds = False
 
         self.scores = []
-
         self.eval_preds = {}
         self.callbacks = cb()
         self._score_len = 0
@@ -76,9 +73,9 @@ class linearXBG():
         while ntree in range(self.n_estimators):
             if self.early_stopping_rounds:
                 if self.verbose is not False and (ntree%self.verbose==0 or ntree==self.n_estimators-1):
-                    print_stdout=True
+                    print_stdout = True
                 else:
-                    print_stdout=False
+                    print_stdout = False
                 self._score_len, score = self.callbacks.evaluate(model=self,
                                                                  eval_sets=self.eval_sets,
                                                                  eval_preds=self.eval_preds,
@@ -115,7 +112,6 @@ class linearXBG():
 
         return self
 
-
     def _boostOneIter(self, X, grad):
         bst = BoostingTree(self.params)
         bst.fit(X, grad)
@@ -124,11 +120,8 @@ class linearXBG():
         for eval_name in self.eval_preds.keys():
             self.eval_preds[eval_name] += self.params["learning_rate"] * bst.predict(self._get_eval_set(self.eval_sets, eval_name))
 
-
     def predict(self, X, ntree_limit=-1):
-
         X = np.array(X)
-
         if self.params["normalize"]:
             X = normalize(X)
 
@@ -137,7 +130,6 @@ class linearXBG():
         preds = self.model[0].predict(X)
         for ntree in np.arange(1, ntree_limit):
             preds += self.params["learning_rate"] * self.model[ntree].predict(X)
-
         return preds
 
     def _checkParams(self, params, n_estimators, eval_sets, verbose):
@@ -189,14 +181,12 @@ class linearXBG():
         if eval_sets is not None:
             if isinstance(eval_sets, list) is False:
                 raise Exception("eval_sets should be None or list")
-
         return params
 
     def _get_eval_set(self, eval_sets, eval_name):
         for eval in eval_sets:
             if eval[1] == eval_name:
                 return eval[0][0]
-
 
     def _norm(self, x, lenght):
         return x/lenght

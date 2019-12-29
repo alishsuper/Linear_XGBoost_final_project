@@ -29,7 +29,8 @@ def rmse_score(y_true, y_pred):
 
 def _get_objective(loss="reg:linear"):
     objectives_names = {"reg:linear": reg_linear,
-                        "binary:logistic": binary_logistic}
+                        "binary:logistic": binary_logistic,
+                        "rmse": rmse_score}
     if loss not in objectives_names.keys():
         print(loss not in objectives_names.keys())
         raise Exception("{} does not found".format(loss))
@@ -47,7 +48,6 @@ def _get_loss(loss="mse"):
         raise Exception("{} does not found".format(loss))
 
     return objectives_names[loss]
-
 
 def _sigmoid(x):
     return 1.0 / (1 + np.exp(-x))

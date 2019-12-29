@@ -38,7 +38,7 @@ class BoostingTree():
         best_feature = None
         best_threshold = None
         best_matricies = None
-        best_order=None
+        best_order = None
 
         for feature in np.arange(self._feature_number):
             order = np.argsort(X[:, feature])

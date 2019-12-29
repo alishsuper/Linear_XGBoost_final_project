@@ -7,7 +7,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from objective import _get_loss
 
-
 class color:
    PURPLE = '\033[95m'
    CYAN = '\033[96m'
@@ -35,7 +34,7 @@ def plot(params, X, y, n_estimators, verbose=10, test_size=.3):
     train_losses = calculate_losses(model, X_train, y_train)
     test_losses = calculate_losses(model, X_test, y_test)
 
-    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(15, 7))
+    fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(15, 5))
     ax1.plot(X, model.predict(X), marker=".")
     ax1.scatter(X, y, c="r", marker=".")
     ax2.plot(train_losses[0], train_losses[1], c="r")
@@ -46,6 +45,7 @@ def plot(params, X, y, n_estimators, verbose=10, test_size=.3):
     ax2.legend(["Train loss", "Test loss"])
 
     plt.show()
+
 
 def calculate_losses(model, X, y, metric="rmse"):
     eval_metric = _get_loss(metric)
@@ -99,7 +99,6 @@ def compare_plot(params, X, y, n_estimators, verbose=10, test_size=.3):
     plt.legend(["LinearXGB train loss", "LinearXGB test loss", "OriginalXGB train loss", "OriginalXGB test loss"])
     plt.show()
 
-
     info_string = color.BOLD + "Linear XGBoost: \n" + color.END
     info_string += " "*5 + "best score is {} on the {} iteration (train)".format(np.min(linear_train_losses[1]), np.argmin(linear_train_losses[1])) + '\n'
     info_string += " "*5 + "best score is {} on the {} iteration (test)".format(np.min(linear_test_losses[1]), np.argmin(linear_test_losses[1])) + '\n'
@@ -108,4 +107,3 @@ def compare_plot(params, X, y, n_estimators, verbose=10, test_size=.3):
     info_string += " "*5 + "best score is {} on the {} iteration (test)".format(np.min(original_test_losses[1]), np.argmin(original_test_losses[1])) + '\n'
 
     print(info_string)
-
